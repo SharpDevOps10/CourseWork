@@ -1,3 +1,4 @@
+'use strict';
 const {parse} = require('node : url');
 module.exports = class Router {
   constructor() {
