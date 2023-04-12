@@ -1,4 +1,4 @@
-'use strict';
+
 const { createServer } = require('node:http');
 const Router = require('/router');
 const ecstatic = require('node:ecstatic');
@@ -36,70 +36,70 @@ class SkillServer {
   }
 }
 const talkPath = /^\/talks\/([^\/]+)$/;
-router.add("GET", talkPath, async (server, title) => {
+router.add('GET', talkPath, async (server, title) => {
   if (title in server.talks) {
-    return {body : JSON.stringify(server.talks[title]),
-      headers : {"Content-Type" : "application/json"}};
+    return { body: JSON.stringify(server.talks[title]),
+      headers: { 'Content-Type': 'application/json' } };
   } else {
-    return {status : 404, body : `No talk '${title}' found`};
+    return { status: 404, body: `No talk '${title}' found` };
   }
 });
-router.add("DELETE", talkPath, async (server, title) => {
+router.add('DELETE', talkPath, async (server, title) => {
   if (title in server.talks) {
     delete server.talks[title];
     server.update();
   }
-  return {status : 204};
+  return { status: 204 };
 });
 const readStream = (stream) => new Promise((resolve, reject) => {
-  let data = "";
+  let data = '';
   stream.on('error', reject);
-  stream.on('data', (chunk) => data+= chunk.toString());
+  stream.on('data', (chunk) => data += chunk.toString());
   stream.on('end', () => resolve(data));
 });
-router.add("PUT", talkPath, async (server, title, request) => {
+router.add('PUT', talkPath, async (server, title, request) => {
   const requestBody = await readStream(request);
   let talk;
   try {
     talk = JSON.parse(requestBody);
   } catch (_) {
-    return {status : 400, body : "Invalid JSON"};
+    return { status: 400, body: 'Invalid JSON' };
   }
   const presenterType = typeof talk.presenter;
   const summaryType = typeof talk.summary;
-  if (!talk || presenterType!== "string" || summaryType!== "string") {
-    return {status : 400, body : "Bad talk data"};
+  if (!talk || presenterType !== 'string' || summaryType !== 'string') {
+    return { status: 400, body: 'Bad talk data' };
   }
 
   server.talks[title] = {
     title,
-    presenter : talk.presenter,
-    summary : talk.summary,
-    comments : [],
+    presenter: talk.presenter,
+    summary: talk.summary,
+    comments: [],
   };
   server.updated();
-  return {status : 204};
+  return { status: 204 };
 });
 const commentPath = /^\/talks\/([^\/]+)\/comments$/;
-router.add("POST", commentPath, async (server, title, request) => {
+router.add('POST', commentPath, async (server, title, request) => {
   const requestBody = await readStream(request);
   let comment;
   try {
     comment = JSON.parse(requestBody);
   } catch (_) {
-    return {status: 400, body: "Invalid JSON"};
+    return { status: 400, body: 'Invalid JSON' };
   }
   if (!comment ||
-    typeof comment.author !== "string" ||
-    typeof comment.message !== "string"){
+    typeof comment.author !== 'string' ||
+    typeof comment.message !== 'string') {
 
-    return {status: 400, body: "Bad comment data"};
+    return { status: 400, body: 'Bad comment data' };
   } else if (title in server.talks) {
     server.talks[title].comments.push(comment);
     server.updated();
-    return {status : 204};
+    return { status: 204 };
   } else {
-    return {status: 404, body: `No talk '${title}' found`};
+    return { status: 404, body: `No talk '${title}' found` };
   }
 
 });
