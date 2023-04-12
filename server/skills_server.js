@@ -58,7 +58,7 @@ const readStream = (stream) => new Promise((resolve, reject) => {
   stream.on('end', () => resolve(data));
 });
 router.add("PUT", talkPath, async (server, title, request) => {
-  let requestBody = await readStream(request);
+  const requestBody = await readStream(request);
   let talk;
   try {
     talk = JSON.parse(requestBody);
@@ -82,7 +82,7 @@ router.add("PUT", talkPath, async (server, title, request) => {
 });
 const commentPath = /^\/talks\/([^\/]+)\/comments$/;
 router.add("POST", commentPath, async (server, title, request) => {
-  let requestBody = await readStream(request);
+  const requestBody = await readStream(request);
   let comment;
   try {
     comment = JSON.parse(requestBody);
