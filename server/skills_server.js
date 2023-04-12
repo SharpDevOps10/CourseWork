@@ -36,3 +36,11 @@ class SkillServer {
   }
 }
 const talkPath = /^\/talks\/([^\/]+)$/;
+router.add("GET", talkPath, async (server, title) => {
+  if (title in server.talks) {
+    return {body : JSON.stringify(server.talks[title]),
+      headers : {"Content-Type" : "application/json"}};
+  } else {
+    return {status : 404, body : `No talk '${title}' found`};
+  }
+});
