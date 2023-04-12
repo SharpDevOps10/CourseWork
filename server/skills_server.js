@@ -44,3 +44,10 @@ router.add("GET", talkPath, async (server, title) => {
     return {status : 404, body : `No talk '${title}' found`};
   }
 });
+router.add("DELETE", talkPath, async (server, title) => {
+  if (title in server.talks) {
+    delete server.talks[title];
+    server.update();
+  }
+  return {status : 204};
+});
