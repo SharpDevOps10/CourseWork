@@ -28,5 +28,10 @@ class SkillServer {
     });
 
   }
-
+  start(port) {
+    this.server.listen(port);
+  }
+  stop() {
+    this.server.close();
+  }
 }
