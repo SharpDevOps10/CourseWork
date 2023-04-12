@@ -1,7 +1,7 @@
 'use strict';
 const { createServer } = require('node:http');
 const Router = require('/router');
-const ecstatic = require('ecstatic');
+const ecstatic = require('node:ecstatic');
 const router = new Router();
 const defaultHeaders = { 'Content-Type': 'text/plain' };
 class SkillServer {
@@ -35,3 +35,4 @@ class SkillServer {
     this.server.close();
   }
 }
+const talkPath = /^\/talks\/([^\/]+)$/;
