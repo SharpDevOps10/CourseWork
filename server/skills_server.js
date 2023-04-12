@@ -57,6 +57,29 @@ const readStream = (stream) => new Promise((resolve, reject) => {
   stream.on('data', (chunk) => data+= chunk.toString());
   stream.on('end', () => resolve(data));
 });
+router.add("PUT", talkPath, async (server, title, request) => {
+  let requestBody = await readStream(request);
+  let talk;
+  try {
+    talk = JSON.parse(requestBody);
+  } catch (_) {
+    return {status : 400, body : "Bad talk data"};
+  }
+  const presenterType = typeof talk.presenter;
+  const summaryType = typeof talk.summary;
+  if (!talk || presenterType!== "string" || summaryType!== "string") {
+    return {status : 400, body : "Bad talk data"};
+  }
+
+  server.talks[title] = {
+    title,
+    presenter : talk.presenter,
+    summary : talk.summary,
+    comments : [],
+  };
+  server.update();
+  return {status : 204};
+});
 
 
 
