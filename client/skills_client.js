@@ -8,6 +8,7 @@ const talkURL = (title) => {
   return 'talks/' + encodeURIComponent(title);
 };
 
+const reportError = (error) => alert(String(error));
 const handleAction = (state, action) => {
   if (action.type === 'setUser') {
     localStorage.setItem('userName', action.user);
