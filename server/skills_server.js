@@ -123,6 +123,15 @@ router.add('GET', /^\/talks$/, async (server, request) => {
   else if (!wait) return {status : 304};
   else return server.waitForChanges(Number(wait[1]));
 });
-
+SkillServer.prototype.waitForChanges = function (time) {
+  return new Promise((resolve) => {
+    this.waiting.push(resolve);
+    setTimeout(() => {
+      if (!this.waiting.includes(resolve)) return;
+      this.waiting = this.waiting.filter((r) => r!== resolve);
+      resolve({status : 304});
+    }, time * 1000);
+  });
+};
 
 
