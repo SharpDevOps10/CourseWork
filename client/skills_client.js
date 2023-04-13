@@ -4,5 +4,9 @@ const fetchOK = (url, options) => fetch(url, options).then((response) => {
   else throw new Error(response.statusText);
 });
 
+const talkURL = (title) => {
+  return 'talks/' + encodeURIComponent(title);
+};
+
 
 
