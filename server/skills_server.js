@@ -133,5 +133,10 @@ SkillServer.prototype.waitForChanges = function(time) {
     }, time * 1000);
   });
 };
-
+SkillServer.prototype.updated = function() {
+  this.version++;
+  const response = this.talkResponse();
+  this.waiting.forEach((resolve) => resolve(response));
+  this.waiting = [];
+};
 
