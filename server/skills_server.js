@@ -103,7 +103,7 @@ router.add('POST', commentPath, async (server, title, request) => {
   }
 });
 SkillServer.prototype.talkResponse = function () {
-  let talks = [];
+  const talks = [];
   for (const title of Object.keys(this.talks)) {
     talks.push(this.talks[title]);
   }
