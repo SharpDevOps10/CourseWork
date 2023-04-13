@@ -4,9 +4,7 @@ const fetchOK = (url, options) => fetch(url, options).then((response) => {
   else throw new Error(response.statusText);
 });
 
-const talkURL = (title) => {
-  return 'talks/' + encodeURIComponent(title);
-};
+const talkURL = (title) => 'talks/' + encodeURIComponent(title);
 
 const reportError = (error) => alert(String(error));
 const handleAction = (state, action) => {
