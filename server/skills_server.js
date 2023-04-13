@@ -116,6 +116,13 @@ SkillServer.prototype.talkResponse = function () {
     }
   };
 };
+router.add('GET', /^\/talks$/, async (server, request) => {
+  const tag = /'(.*)'/.exec(request.headers['if-none-match']);
+  const wait = /\bwait=(\d+)/.exec(request.headers['prefer']);
+  if (!tag || tag[1] !== server.version) return server.talkResponse();
+  else if (!wait) return {status : 304};
+  else return server.waitForChanges(Number(wait[1]));
+});
 
 
 
