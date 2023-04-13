@@ -139,4 +139,4 @@ SkillServer.prototype.updated = function() {
   this.waiting.forEach((resolve) => resolve(response));
   this.waiting = [];
 };
-
+new SkillServer(Object.create(null).start(8000));
