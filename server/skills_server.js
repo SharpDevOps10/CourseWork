@@ -1,4 +1,4 @@
-
+'use strict';
 const { createServer } = require('node:http');
 const Router = require('/router');
 const ecstatic = require('node:ecstatic');
@@ -101,8 +101,21 @@ router.add('POST', commentPath, async (server, title, request) => {
   } else {
     return { status: 404, body: `No talk '${title}' found` };
   }
-
 });
+SkillServer.prototype.talkResponse = function () {
+  let talks = [];
+  for (const title of Object.keys(this.talks)) {
+    talks.push(this.talks[title]);
+  }
+  return {
+    body : JSON.stringify(talks),
+    headers : {
+      'Content-Type' : 'application/json',
+      'ETag' : `'${this.version}'`,
+      'Cache-Control' : 'no-store',
+    }
+  };
+};
 
 
 
