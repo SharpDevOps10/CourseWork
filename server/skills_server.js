@@ -102,17 +102,17 @@ router.add('POST', commentPath, async (server, title, request) => {
     return { status: 404, body: `No talk '${title}' found` };
   }
 });
-SkillServer.prototype.talkResponse = function () {
+SkillServer.prototype.talkResponse = function() {
   const talks = [];
   for (const title of Object.keys(this.talks)) {
     talks.push(this.talks[title]);
   }
   return {
-    body : JSON.stringify(talks),
-    headers : {
-      'Content-Type' : 'application/json',
-      'ETag' : `'${this.version}'`,
-      'Cache-Control' : 'no-store',
+    body: JSON.stringify(talks),
+    headers: {
+      'Content-Type': 'application/json',
+      'ETag': `'${this.version}'`,
+      'Cache-Control': 'no-store',
     }
   };
 };
@@ -120,16 +120,16 @@ router.add('GET', /^\/talks$/, async (server, request) => {
   const tag = /'(.*)'/.exec(request.headers['if-none-match']);
   const wait = /\bwait=(\d+)/.exec(request.headers['prefer']);
   if (!tag || tag[1] !== server.version) return server.talkResponse();
-  else if (!wait) return {status : 304};
+  else if (!wait) return { status: 304 };
   else return server.waitForChanges(Number(wait[1]));
 });
-SkillServer.prototype.waitForChanges = function (time) {
+SkillServer.prototype.waitForChanges = function(time) {
   return new Promise((resolve) => {
     this.waiting.push(resolve);
     setTimeout(() => {
       if (!this.waiting.includes(resolve)) return;
-      this.waiting = this.waiting.filter((r) => r!== resolve);
-      resolve({status : 304});
+      this.waiting = this.waiting.filter((r) => r !== resolve);
+      resolve({ status: 304 });
     }, time * 1000);
   });
 };
