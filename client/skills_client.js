@@ -50,4 +50,14 @@ const elt = (type, props, ...children) => {
   return dom;
 };
 
+const renderUserField = (name, dispatch) => {
+  return elt('label', {}, 'Your name: ', elt('input'), {
+    type: 'text',
+    value: name,
+    onchange(event) {
+      dispatch({type: 'setUser', user: event.target.value});
+    }
+  });
+};
+
 
