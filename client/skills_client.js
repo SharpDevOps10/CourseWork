@@ -50,46 +50,40 @@ const elt = (type, props, ...children) => {
   return dom;
 };
 
-const renderUserField = (name, dispatch) => {
-  return elt('label', {}, 'Your name: ', elt('input'), {
-    type: 'text',
-    value: name,
-    onchange(event) {
-      dispatch({type: 'setUser', user: event.target.value});
-    }
-  });
-};
+const renderUserField = (name, dispatch) => elt('label', {}, 'Your name: ', elt('input'), {
+  type: 'text',
+  value: name,
+  onchange(event) {
+    dispatch({ type: 'setUser', user: event.target.value });
+  }
+});
 
-const renderComment = (comment) => {
-  return elt('p', {className: 'comment'},
-    elt('strong', null, comment.author),
-      ': ', comment.message);
-};
-const renderTalk = (talk, dispatch) => {
-  return elt(
-      "section", {className: "talk"},
-      elt("h2", null, talk.title, " ", elt("button", {
-        type: "button",
-        onclick() {
-          dispatch({type: "deleteTalk", talk: talk.title});
-        }
-      }, "Delete")),
-      elt("div", null, "by ",
-          elt("strong", null, talk.presenter)),
-      elt("p", null, talk.summary),
-      ...talk.comments.map(renderComment),
-      elt("form", {
-            onsubmit(event) {
-              event.preventDefault();
-              let form = event.target;
-              dispatch({type: "newComment",
-                talk: talk.title,
-                message: form.elements.comment.value});
-              form.reset();
-            }
-          }, elt("input", {type: "text", name: "comment"}), " ",
-          elt("button", {type: "submit"}, "Add comment")));
-};
+const renderComment = (comment) => elt('p', { className: 'comment' },
+  elt('strong', null, comment.author),
+  ': ', comment.message);
+const renderTalk = (talk, dispatch) => elt(
+  'section', { className: 'talk' },
+  elt('h2', null, talk.title, ' ', elt('button', {
+    type: 'button',
+    onclick() {
+      dispatch({ type: 'deleteTalk', talk: talk.title });
+    }
+  }, 'Delete')),
+  elt('div', null, 'by ',
+    elt('strong', null, talk.presenter)),
+  elt('p', null, talk.summary),
+  ...talk.comments.map(renderComment),
+  elt('form', {
+    onsubmit(event) {
+      event.preventDefault();
+      const form = event.target;
+      dispatch({ type: 'newComment',
+        talk: talk.title,
+        message: form.elements.comment.value });
+      form.reset();
+    }
+  }, elt('input', { type: 'text', name: 'comment' }), ' ',
+  elt('button', { type: 'submit' }, 'Add comment')));
 
 
 
