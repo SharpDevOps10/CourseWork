@@ -60,4 +60,26 @@ const renderUserField = (name, dispatch) => {
   });
 };
 
+const renderTalk = (talk, dispatch) => {
+  return elt(
+    'section', {className: 'talk'},
+    elt('h2', null, talk.title, ' ', elt('button', {
+      type: 'button',
+      onclick() {
+        dispatch({type: 'deleteTalk', talk: talk.title});
+      }
+    },'Delete')),
+    elt('div', null, talk.summary),
+      elt('strong', null, talk.presenter),
+    elt('p', null, talk.summary),
+      ...talk.comments.map(renderComment),
+
+  );
+
+
+};
+
+
+
+
 
