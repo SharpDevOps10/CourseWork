@@ -60,6 +60,11 @@ const renderUserField = (name, dispatch) => {
   });
 };
 
+const renderComment = (comment) => {
+  return elt('p', {className: 'comment'},
+    elt('strong', null, comment.author),
+      ': ', comment.message);
+};
 const renderTalk = (talk, dispatch) => {
   return elt(
     'section', {className: 'talk'},
