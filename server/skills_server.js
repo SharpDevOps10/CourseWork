@@ -1,7 +1,7 @@
 'use strict';
-const { createServer } = require('node:http');
-const Router = require('/router');
-const ecstatic = require('node:ecstatic');
+import { createServer } from 'http';
+import {Router} from './router.js';
+import ecstatic from 'ecstatic';
 const router = new Router();
 const defaultHeaders = { 'Content-Type': 'text/plain' };
 class SkillServer {
@@ -139,4 +139,5 @@ SkillServer.prototype.updated = function() {
   this.waiting.forEach((resolve) => resolve(response));
   this.waiting = [];
 };
-new SkillServer(Object.create(null).start(8000));
+const skillServer = new SkillServer(Object.create(null));
+skillServer.start(8000);
