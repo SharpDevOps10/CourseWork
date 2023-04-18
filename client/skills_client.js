@@ -107,32 +107,32 @@ const pollTalks = async (update) => {
 };
 
 const renderTalkForm = (dispatch) => {
-  const title = elt('input', {type: 'text'});
-  const summary = elt('input', {type: 'text'});
+  const title = elt('input', { type: 'text' });
+  const summary = elt('input', { type: 'text' });
   return elt('form', {
     onsubmit(event) {
       event.preventDefault();
       dispatch({
         type: 'newTalk',
         title: title.value,
-        summary: summary.value});
+        summary: summary.value });
       event.target.reset();
     }
   },
-    elt('h3', null, 'Submit a Talk'),
-    elt('label', null, 'Title: ', title),
-    elt('label', null, 'Summary: ', summary),
-    elt('button', {type: 'submit'}, 'Submit'));
+  elt('h3', null, 'Submit a Talk'),
+  elt('label', null, 'Title: ', title),
+  elt('label', null, 'Summary: ', summary),
+  elt('button', { type: 'submit' }, 'Submit'));
 };
 
 class PortfolioApp {
   constructor(state, dispatch) {
     this.dispatch = dispatch;
-    this.talkDOM = elt('div', {className: 'talks'});
+    this.talkDOM = elt('div', { className: 'talks' });
     this.dom = elt('div', null,
-        renderUserField(state.user, dispatch),
-        this.talkDOM,
-        renderTalkForm(dispatch));
+      renderUserField(state.user, dispatch),
+      this.talkDOM,
+      renderTalkForm(dispatch));
     this.syncState(state);
   }
   syncState(state) {
@@ -153,14 +153,14 @@ const runApp = () => {
   const dispatch = (action) => {
     state = handleAction(state, action);
     app.syncState(state);
-  }
+  };
   pollTalks((talks) => {
     if (!app) {
-      state = {user, talks};
+      state = { user, talks };
       app = new PortfolioApp(state, dispatch);
       document.body.appendChild(app.dom);
     } else {
-      dispatch({type: 'setTalks', talks});
+      dispatch({ type: 'setTalks', talks });
     }
   }).catch(reportError);
 };
