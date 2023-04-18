@@ -147,6 +147,26 @@ class PortfolioApp {
   }
 }
 
+const runApp = () => {
+  const user = localStorage.getItem('userName') || 'Anon';
+  let state, app;
+  const dispatch = (action) => {
+    state = handleAction(state, action);
+    app.syncState(state);
+  }
+  pollTalks((talks) => {
+    if (!app) {
+      state = {user, talks};
+      app = new PortfolioApp(state, dispatch);
+      document.body.appendChild(app.dom);
+    } else {
+      dispatch({type: 'setTalks', talks});
+    }
+  }).catch(reportError);
+};
+
+runApp();
+
 
 
 
