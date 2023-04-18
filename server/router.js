@@ -1,6 +1,6 @@
 'use strict';
-const { parse } = require('node : url');
-module.exports = class Router {
+import { parse } from 'url';
+export class Router {
   constructor() {
     this.routes = [];
   }
@@ -17,4 +17,4 @@ module.exports = class Router {
     }
     return null;
   }
-};
+}
