@@ -106,6 +106,25 @@ const pollTalks = async (update) => {
   }
 };
 
+const renderTalkForm = (dispatch) => {
+  const title = elt('input', {type: 'text'});
+  const summary = elt('input', {type: 'text'});
+  return elt('form', {
+    onsubmit(event) {
+      event.preventDefault();
+      dispatch({
+        type: 'newTalk',
+        title: title.value,
+        summary: summary.value});
+      event.target.reset();
+    }
+  },
+    elt('h3', null, 'Submit a Talk'),
+    elt('label', null, 'Title: ', title),
+    elt('label', null, 'Summary: ', summary),
+    elt('button', {type: 'submit'}, 'Submit'));
+};
+
 
 
 
